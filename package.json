@@ -2,7 +2,7 @@
   "name": "goit-react-hw-03-image-finder",
   "version": "0.1.0",
   "private": true,
-  "homework": "https://Aleksandr-Bondarenko.github.io/goit-react-hw-03-image-finder",
+  "homepage": "https://Aleksandr-Bondarenko.github.io/goit-react-hw-03-image-finder",
   "dependencies": {
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^11.2.7",
