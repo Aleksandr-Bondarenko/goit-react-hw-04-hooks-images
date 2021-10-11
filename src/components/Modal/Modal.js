@@ -1,11 +1,20 @@
-function Modal({ url, tags, closeModal }) {
+import s from "./Modal.module.css";
+import PropTypes from "prop-types";
+
+function Modal({ url, tags, hideModal }) {
   return (
-    <div className="Overlay" onClick={closeModal}>
-      <div className="Modal">
-        <img src={url} alt={tags} />
+    <div className={s.overlay} onClick={hideModal}>
+      <div className={s.modal}>
+        <img src={url} alt={tags} className={s.modalImg} />
       </div>
     </div>
   );
 }
 
 export default Modal;
+
+Modal.propTypes = {
+  url: PropTypes.string,
+  tags: PropTypes.string,
+  hideModal: PropTypes.func,
+};

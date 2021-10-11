@@ -1,15 +1,16 @@
+import PropTypes from "prop-types";
+import s from "./Button.module.css";
+
 function Button({ pageIncrement }) {
   return (
-    <button
-      className="Button"
-      type="button"
-      onClick={() => {
-        pageIncrement();
-      }}
-    >
-      Load More
+    <button className={s.button} type="button" onClick={pageIncrement}>
+      Load more
     </button>
   );
 }
 
 export default Button;
+
+Button.propTypes = {
+  pageIncrement: PropTypes.func,
+};
