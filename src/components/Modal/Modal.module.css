@@ -12,6 +12,8 @@
 }
 
 .modal {
+  position: relative;
+  z-index: 1400;
   max-width: calc(100vw - 48px);
   max-height: calc(100vh - 24px);
 }
@@ -19,4 +21,9 @@
 .modalImg {
   max-width: inherit;
   max-height: inherit;
+}
+
+.modalLoader {
+  position: absolute;
+  z-index: 1100;
 }

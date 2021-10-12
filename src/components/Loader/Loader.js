@@ -7,7 +7,7 @@ function Load() {
       color="#303f9f"
       height={30}
       width={60}
-      timeout={5000}
+      timeout={30000}
       style={{ margin: "0 auto" }}
     />
   );
