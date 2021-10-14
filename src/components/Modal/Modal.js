@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import Load from "../Loader/Loader";
 
 function Modal({ url, tags, hideModal }) {
+  window.addEventListener("keydown", hideModal);
   return (
     <div className={s.overlay} onClick={hideModal}>
       <div className={s.modalLoader}>

@@ -10,12 +10,12 @@ import s from "./ImageGallery.module.css";
 class ImageGallery extends Component {
   static propTypes = {
     searchQuery: PropTypes.string,
-    userKey: PropTypes.string,
+    page: PropTypes.number,
+    handlerPageIncrement: PropTypes.func,
   };
 
   state = {
-    images: null,
-    page: 1,
+    images: [],
     status: "idle",
     moreBtnShow: false,
     error: null,
@@ -27,51 +27,26 @@ class ImageGallery extends Component {
     },
   };
 
-  componentDidUpdate(prevProps, prevState) {
-    const { searchQuery, userKey } = this.props;
+  componentDidUpdate(prevProps) {
+    const { searchQuery, page } = this.props;
 
-    if (prevProps.searchQuery !== searchQuery) {
-      this.setState({ page: 1, status: "pending" });
-
-      return api
-        .fetchImages(searchQuery, userKey)
-        .then((data) => {
-          this.setState({
-            images: data.hits,
-            status: "resolved",
-            moreBtnShow: false,
-          });
-
-          if (data.totalHits > 12) {
-            this.setState({
-              moreBtnShow: true,
-            });
-          }
-
-          this.scrollTo();
-        })
-        .catch((error) => this.setState({ error, status: "rejected" }));
-    }
-
-    if (prevState.page < this.state.page) {
+    if (prevProps.searchQuery !== searchQuery || prevProps.page !== page) {
       this.setState({ status: "pending" });
 
       return api
-        .fetchImages(searchQuery, userKey, this.state.page)
+        .fetchImages(searchQuery, page)
         .then((data) => {
           this.setState((prevState) => ({
-            images: [...prevState.images, ...data.hits],
+            images:
+              prevState.images && page > 1
+                ? [...prevState.images, ...data.hits]
+                : data.hits,
             status: "resolved",
+            moreBtnShow:
+              prevProps.searchQuery === searchQuery
+                ? prevState.images.length + data.hits.length !== data.totalHits
+                : data.totalHits > 12,
           }));
-
-          if (
-            data.hits.length < 12 ||
-            prevState.images.length + data.hits.length === data.totalHits
-          ) {
-            this.setState({
-              moreBtnShow: false,
-            });
-          }
 
           this.scrollTo();
         })
@@ -86,14 +61,7 @@ class ImageGallery extends Component {
     });
   };
 
-  pageIncrement = () => {
-    this.setState((prevState) => ({
-      page: prevState.page + 1,
-    }));
-  };
-
   showModal = (id, tags, url) => {
-    window.addEventListener("keydown", this.hideModal);
     if (this.state.images.find((image) => image.id === id)) {
       document.querySelector("body").style.overflowY = "hidden";
       this.setState({ modal: { modalShow: true, url, tags } });
@@ -110,7 +78,6 @@ class ImageGallery extends Component {
 
   render() {
     const {
-      page,
       images,
       status,
       moreBtnShow,
@@ -125,7 +92,7 @@ class ImageGallery extends Component {
     if (status === "pending") {
       return (
         <>
-          {page === 1 ? (
+          {this.props.page === 1 ? (
             <Load />
           ) : (
             <>
@@ -159,7 +126,9 @@ class ImageGallery extends Component {
               handleOpenModal={this.showModal}
             />
           </ul>
-          {moreBtnShow && <Button pageIncrement={this.pageIncrement} />}
+          {moreBtnShow && (
+            <Button handlePageIncrement={this.props.handlePageIncrement} />
+          )}
           {modalShow && (
             <Modal url={url} tags={tags} hideModal={this.hideModal} />
           )}

@@ -1,9 +1,9 @@
 import PropTypes from "prop-types";
 import s from "./Button.module.css";
 
-function Button({ pageIncrement }) {
+function Button({ handlePageIncrement }) {
   return (
-    <button className={s.button} type="button" onClick={pageIncrement}>
+    <button className={s.button} type="button" onClick={handlePageIncrement}>
       Load more
     </button>
   );
@@ -12,5 +12,5 @@ function Button({ pageIncrement }) {
 export default Button;
 
 Button.propTypes = {
-  pageIncrement: PropTypes.func,
+  handlePageIncrement: PropTypes.func,
 };

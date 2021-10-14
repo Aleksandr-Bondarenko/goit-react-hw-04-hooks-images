@@ -6,12 +6,17 @@ import s from "./App.module.css";
 class App extends Component {
   state = {
     searchQuery: "",
+    page: null,
   };
 
-  USER_KEY = "22971640-b13f0b0978f0830ddac6b5885";
-
   handleSearchQueryOnSubmit = (inputValue) => {
-    this.setState({ searchQuery: inputValue });
+    this.setState({ searchQuery: inputValue, page: 1 });
+  };
+
+  handlePageIncrement = () => {
+    this.setState((prevState) => ({
+      page: prevState.page + 1,
+    }));
   };
 
   render() {
@@ -20,7 +25,8 @@ class App extends Component {
         <Searchbar onSubmit={this.handleSearchQueryOnSubmit} />
         <ImageGallery
           searchQuery={this.state.searchQuery}
-          userKey={this.USER_KEY}
+          page={this.state.page}
+          handlePageIncrement={this.handlePageIncrement}
         />
       </div>
     );
