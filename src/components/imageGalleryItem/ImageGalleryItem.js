@@ -5,8 +5,8 @@ function ImageGalleryItem({ images, handleOpenModal }) {
   return images.map(({ id, tags, webformatURL, largeImageURL }) => (
     <li
       className={s.item}
-      // key={webformatURL} //Если на бэке случается баг с повторением картинок и id
-      key={id}
+      key={webformatURL} //Если на бэке случается баг с повторением картинок и id
+      // key={id}
       onClick={() => handleOpenModal(id, tags, largeImageURL)}
     >
       <img src={webformatURL} alt={tags} className={s.img} />

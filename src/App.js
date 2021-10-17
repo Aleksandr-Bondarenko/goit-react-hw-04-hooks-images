@@ -1,36 +1,31 @@
-import { Component } from "react";
+import { useState } from "react";
 import Searchbar from "./components/Searchbar/Searchbar";
 import ImageGallery from "./components/ImageGallery/ImageGallery";
 import s from "./App.module.css";
 
-class App extends Component {
-  state = {
-    searchQuery: "",
-    page: null,
+function App() {
+  const [searchQuery, setSearchQuery] = useState("");
+  const [page, setPage] = useState(null);
+
+  const handleSearchQueryOnSubmit = (inputValue) => {
+    setSearchQuery(inputValue);
+    setPage(1);
   };
 
-  handleSearchQueryOnSubmit = (inputValue) => {
-    this.setState({ searchQuery: inputValue, page: 1 });
+  const handlePageIncrement = () => {
+    setPage((prevPage) => prevPage + 1);
   };
 
-  handlePageIncrement = () => {
-    this.setState((prevState) => ({
-      page: prevState.page + 1,
-    }));
-  };
-
-  render() {
-    return (
-      <div className={s.app}>
-        <Searchbar onSubmit={this.handleSearchQueryOnSubmit} />
-        <ImageGallery
-          searchQuery={this.state.searchQuery}
-          page={this.state.page}
-          handlePageIncrement={this.handlePageIncrement}
-        />
-      </div>
-    );
-  }
+  return (
+    <div className={s.app}>
+      <Searchbar onSubmit={handleSearchQueryOnSubmit} />
+      <ImageGallery
+        searchQuery={searchQuery}
+        page={page}
+        handlePageIncrement={handlePageIncrement}
+      />
+    </div>
+  );
 }
 
 export default App;
